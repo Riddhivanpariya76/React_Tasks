@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import React from 'react'
 
 const Login = () => {
@@ -26,9 +27,9 @@ const Login = () => {
       </form>
 
       {/* Link to Register Page */}
-      {/* <p className="link-text">
-        Dont't have an account? 
-      </p> */}
+      <p className="link-text">
+        Dont't have an account? <Link to="/Login">Login here</Link>
+      </p>
 
     </div>
   )
