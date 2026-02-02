@@ -28,7 +28,7 @@ const Login = () => {
 
       {/* Link to Register Page */}
       <p className="link-text">
-        Dont't have an account? <Link to="/Login">Login here</Link>
+        Dont't have an account? <Link to="/register">Register here</Link>
       </p>
 
     </div>
