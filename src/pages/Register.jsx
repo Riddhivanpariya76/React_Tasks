@@ -10,7 +10,7 @@ const Register = () => {
     password: "",
     phone: "",
   });
-  const [errors,setErrors]=useState({})
+  const [errors,setErrors] = useState({})
   const navigate = useNavigate()
 
   //logic section
