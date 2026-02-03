@@ -27,6 +27,8 @@ const Register = () => {
       [e.target.name]:""
     })
   };
+
+  // validation
   const validate = () => {
     const newErrors = {};
 
@@ -55,6 +57,7 @@ const Register = () => {
     return Object.keys(newErrors).length===0;
   }
 
+  // submit 
   const handleSubmit = (e) => {
     e.preventDefault();
     if(validate()){
@@ -115,7 +118,7 @@ const Register = () => {
               placeholder="Enter your phone number"
               onChange={handleInputChange}
             />
-            {errors.phone && <span className="error-msg"> {phone.name}</span>}
+            {errors.phone && <span className="error-msg"> {phone.phone}</span>}
           </div>
 
           {/** Password */}
