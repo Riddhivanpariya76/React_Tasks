@@ -1,22 +1,20 @@
-import { Link, useNavigate } from 'react-router-dom'
-import React, { useState } from 'react'
+import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email : "",
-    password : "",
+  const navigate = useNavigate();
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
   });
 
-
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
 
   // logic section
   const handleInputChange = (e) => {
-
     //method declare
-    setFormData({
-      ...formData,
+    setLoginData({
+      ...loginData,
       [e.target.name]: e.target.value,
     });
 
@@ -30,12 +28,16 @@ const Login = () => {
   const validate = () => {
     const newErrors = {};
 
-    if (!formData.email.trim()) {
+    if (!loginData.email.trim()) {
       newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^s@]+\.[^\s@]+$/.test(loginData.email)) {
+      newErrors.email = "Invalid Email format.";
     }
 
-    if (!formData.password.trim()) {
+    if (!loginData.password.trim()) {
       newErrors.password = "Password is required";
+    } else if (loginData.password.length < 6) {
+      newErrors.password = "Minimum 6 character required.";
     }
 
     setErrors(newErrors);
@@ -43,61 +45,70 @@ const Login = () => {
   };
 
   // submit
-  const handleSubmit = (e) => {
+  const handleClick = (e) => {
     e.preventDefault();
-
-    if (!validate()) return;
-    const user = JSON.parse(localStorage.getItem("authData"));
-
-    if (
-      user && 
-      user.email === formData.email &&
-      user.password === formData.password
-    )
-    {
-      alert("Loginn successfull");
-      navigate("/dashboard");
-    } 
-    else {
-      alert("Invalid Email or Password");
+    if (validate()) {
+      const user = JSON.parse(localStorage.getItem("authData"));
+      if (
+        user &&
+        loginData.email === user.email && loginData.password === user.password
+      ) {
+        localStorage.setItem("loginData", JSON.stringify(loginData));
+        navigate("/dashboard");
+      } else {
+        alert("Invalid Email or Password");
+      }
+    } else {
+      alert("Something went wrong");
     }
   };
 
   return (
-    <div className='form-container'>
+    <div className="form-container">
       {/* Page Title */}
-      <h1 className='form-title'>Welcome Back</h1>
+      <h1 className="form-title">Welcome Back</h1>
 
       {/* Login Form */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleClick}>
         {/* Email Field */}
         <div className="form-group">
-            <label htmlFor="email">Email Address</label>
-            <input type="email" id='email' name='email' value={formData.email} placeholder='Enter Your Email' onChange={handleInputChange} />
+          <label htmlFor="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={loginData.email}
+            placeholder="Enter Your Email"
+            onChange={handleInputChange}
+          />
         </div>
 
         {/* Password Field */}
         <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input type="password" id='password' name='password' value={formData.password} placeholder='Enter Your Password' onChange={handleInputChange} />
-
-            {errors.password && (
-            <span className="error-msg">{errors.password}</span>
-          )}
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={loginData.password}
+            placeholder="Enter Your Password"
+            onChange={handleInputChange}
+          />
+          {errors.password && <span className="error-msg">{errors.password}</span>}
         </div>
 
         {/* Submit Button */}
-        <button type='submit' className='btn-primary'>Login</button>
-
+        <button type="submit" className="btn-primary">
+          Login
+        </button>
       </form>
 
       {/* Link to Register Page */}
       <p className="link-text">
         Dont't have an account? <Link to="/register">Register here</Link>
       </p>
-
     </div>
   );
 };
 
-export default Login
+export default Login;

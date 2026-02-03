@@ -7,14 +7,15 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
+import AuthGuard from './auth/AuthGuard'
 
 const DefaultRoute = () => {
-  const authData = JSON.parse(localStorage.getItem('authData'));
-  if (authData) {
-    return <Navigat to = "/login" replace/>
+  const loginData = JSON.parse(localStorage.getItem('loginData'));
+  if (loginData) {
+    return <Navigat to = "/dashboard" replace />;
   }
-  return <Navigat to = "/register" replace/>
-}
+  return <Navigat to = "/login" replace />;
+};
 
 function App() {
   const route = createBrowserRouter([
@@ -24,19 +25,31 @@ function App() {
     },
     {
       path: "/login",
-      element: <Login />
+      element: (
+        <AuthGuard required={false}>
+        <Login />
+        </AuthGuard>
+        ),
     },
     {
       path: "/register",
-      element: <Register />
+      element: (
+        <AuthGuard required={false}>
+        <Register />
+        </AuthGuard>
+        ), 
     },
     {
       path: "/dashboard",
-      element: <Dashboard/>
+      element: (
+        <AuthGuard required={true}>
+        <Dashboard/>
+        </AuthGuard>
+        ),
     }
-  ])
+  ]);
 
-  return <RouterProvider router={route}/>
+  return <RouterProvider router={route}/>;
 }
 
 export default App
