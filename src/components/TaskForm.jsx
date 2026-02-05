@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const TaskForm = () => {
+const TaskForm = ({addTask}) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -44,8 +44,8 @@ const TaskForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+        addTask(formData)
       alert("Task Added Successfully ✅");
-      console.log(formData);
 
       setFormData({
         title: "",
@@ -56,7 +56,13 @@ const TaskForm = () => {
       setErrors({});
     }
   };
-
+  const resetForm = () => {
+    setFormData({
+        title: "",
+        dueDate: "",
+        priority: ""
+    })
+  }
   return (
     <div className="add-task-card">
       <h2 style={{ marginBottom: "15px" }}>Add New Task</h2>
