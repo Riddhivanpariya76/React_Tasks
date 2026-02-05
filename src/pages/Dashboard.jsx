@@ -4,36 +4,43 @@ import { useNavigate } from "react-router-dom";
 import TaskList from "../components/TaskList";
 
 const Dashboard = () => {
-  const navigate = useNavigate()
-  const[tasks, setTasks] = useState([])
+  const navigate = useNavigate();
+  const [tasks, setTasks] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchData();
-  },[])
+  }, []);
 
-  const fetchData =async () => {
+  const fetchData = async () => {
     try {
       const response = await fetch("http://localhost:3000/tasks");
-      const data = response.json();
+      const data = await response.json();
       setTasks(data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
-  const handleLogout = () =>{
+  useEffect(() => {
+    console.log("called after API", tasks);
+  }, [tasks]);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleLogout = () => {
     // console.log('click from dashboard')
-    localStorage.removeItem('loginData')
-    localStorage.removeItem('authData')
+    localStorage.removeItem("loginData");
+    localStorage.removeItem("authData");
     // localStorage.clear()
-    navigate('/login')
-  }
+    navigate("/login");
+  };
 
   return (
     <div>
-      <NavBar title="Task Management" onLogout={handleLogout}/>
+      <NavBar title="Task Management" onLogout={handleLogout} />
       <h1>MY TASKS</h1>
-      <TaskList/>
+      <TaskList tasks={tasks} />
     </div>
   );
 };
