@@ -4,7 +4,7 @@ const TaskForm = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    date: "",
+    dueDate: "",
     priority: "Medium",
   });
 
@@ -33,8 +33,8 @@ const TaskForm = () => {
       errors.description = "Description is required.";
     }
 
-    if (!formData.date) {
-      errors.date = "Date is required.";
+    if (!formData.dueDate) {
+      errors.dueDate = "Date is required.";
     }
 
     setErrors(errors);
@@ -50,7 +50,7 @@ const TaskForm = () => {
       setFormData({
         title: "",
         description: "",
-        date: "",
+        dueDate: "",
         priority: "",
       });
       setErrors({});
@@ -93,11 +93,11 @@ const TaskForm = () => {
           <div style={{ flex: 1 }}>
             <input
               type="date"
-              name="date"
-              value={formData.date}
+              name="dueDate"
+              value={formData.dueDate}
               onChange={handleInputChange}
             />
-            {errors.date && <span className="error-msg">{errors.date}</span>}
+            {errors.dueDate && <span className="error-msg">{errors.dueDate}</span>}
           </div>
 
           <div style={{ flex: 1 }}>
@@ -133,7 +133,7 @@ const TaskForm = () => {
               setFormData({
                 title: "",
                 description: "",
-                date: "",
+                dueDate: "",
                 priority: "",
               })
             }
