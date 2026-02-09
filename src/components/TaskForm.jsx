@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const TaskForm = ({addTask}) => {
+const TaskForm = ({addTask, updateTask, editingTask}) => {
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    dueDate: "",
-    priority: "Medium",
+    // title: "",
+    // description: "",
+    // dueDate: "",
+    // priority: "Medium",
   });
 
   const [errors, setErrors] = useState({});
+
+  useEffect(()=>{
+    setFormData(editingTask)
+  },[editingTask])
 
   const handleInputChange = (e) => {
     setFormData({
@@ -44,16 +48,22 @@ const TaskForm = ({addTask}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      if(editingTask){
+        updateTask(formData)
+      }
+      else{
         addTask(formData)
-      alert("Task Added Successfully ✅");
+      }
+      //   addTask(formData)
+      // alert("Task Added Successfully ✅");
 
-      setFormData({
-        title: "",
-        description: "",
-        dueDate: "",
-        priority: "",
-      });
-      setErrors({});
+      // setFormData({
+      //   title: "",
+      //   description: "",
+      //   dueDate: "",
+      //   priority: "",
+      // });
+      // setErrors({});
     }
   };
   const resetForm = () => {
@@ -74,7 +84,7 @@ const TaskForm = ({addTask}) => {
             type="text"
             placeholder="Task Title"
             name="title"
-            value={formData.title}
+            value={formData?.title}
             onChange={handleInputChange}
           />
           {errors.title && <span className="error-msg">{errors.title}</span>}
@@ -86,7 +96,7 @@ const TaskForm = ({addTask}) => {
             name="description"
             placeholder="Description"
             rows="3"
-            value={formData.description}
+            value={formData?.description}
             onChange={handleInputChange}
           />
           {errors.description && (
@@ -100,7 +110,7 @@ const TaskForm = ({addTask}) => {
             <input
               type="date"
               name="dueDate"
-              value={formData.dueDate}
+              value={formData?.dueDate}
               onChange={handleInputChange}
             />
             {errors.dueDate && <span className="error-msg">{errors.dueDate}</span>}
@@ -109,7 +119,7 @@ const TaskForm = ({addTask}) => {
           <div style={{ flex: 1 }}>
             <select
               name="priority"
-              value={formData.priority}
+              value={formData?.priority}
               onChange={handleInputChange}
             >
               <option value="">Select Priority</option>
@@ -129,7 +139,7 @@ const TaskForm = ({addTask}) => {
           style={{ display: "flex", gap: "10px", marginTop: "10px" }}
         >
           <button type="submit" className="btn-primary" style={{ flex: 1 }}>
-            Add Task
+            {editingTask ? 'Update' : 'Add'} Task
           </button>
           <button
             type="reset"

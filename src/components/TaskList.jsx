@@ -1,6 +1,13 @@
 import React from "react";
 
-const TaskList = ({ tasks }) => {
+const TaskList = ({ tasks , editingTask, deletingTask}) => {
+
+  const handleEditClick = (tasks) =>{
+    editingTask(tasks)
+  }
+  const handleDeleteClick = (taskId) => {
+    deletingTask(taskId)
+  }
   return (
     <>
       <div className="task-grid">
@@ -22,6 +29,7 @@ const TaskList = ({ tasks }) => {
                 className="btn-icon"
                 style={{ background: "#00d2ff" }}
                 title="Edit Task"
+                onClick={() => handleEditClick(tasks)}
               >
                 ✏️
               </button>
@@ -38,6 +46,7 @@ const TaskList = ({ tasks }) => {
                 className="btn-icon"
                 style={{ background: "#ff416c" }}
                 title="Delete Task"
+                onClick={() => handleDeleteClick(tasks.id)}
               >
                 🗑️
               </button>

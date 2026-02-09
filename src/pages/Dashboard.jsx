@@ -7,6 +7,7 @@ import TaskForm from "../components/TaskForm";
 const Dashboard = () => {
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
+  const [editTask, setEditTask] = useState();
 
   useEffect(() => {
     fetchData();
@@ -51,14 +52,43 @@ const Dashboard = () => {
     } catch (error) {
       console.log(error)
     }
+  };
+
+  const handleDeleteTask = async(id) =>{
+    try {
+      await fetch(`http://localhost:3000/tasks/${id}`,{
+        method: "DELETE"
+      })
+      setTasks(tasks.filter((tasks) => tasks.id !==id))
+    } catch(error) {
+      console.log(error)
+    }
   }
+
+  const handleUpdateTask = async(updateTask) =>{
+    try{
+      await fetch(`http://localhost:3000/tasks/${updateTask.id}`,{
+        method: "PUT",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(updateTask)
+      })
+      setTasks(tasks.map((tasks)=>(tasks.id === updateTask.id ? {...updateTask} : tasks)))
+    } catch (error){
+      console.log(error);
+    }
+  };
+
+  const editingTask = (editingTask) =>{
+    console.log(editTask);
+    setEditTask(editingTask);
+  };
 
   return (
     <div>
       <NavBar title="Task Management" onLogout={handleLogout} />
-      <TaskForm addTask={handleaddTask}/>
+      <TaskForm addTask={handleaddTask} updateTask={handleUpdateTask} editingTask={editTask}/>
       <h1>MY TASKS</h1>
-      <TaskList tasks={tasks} />
+      <TaskList tasks={tasks} editingTask={editingTask} deletingTask={handleDeleteTask}/>
     </div>
   );
 };
