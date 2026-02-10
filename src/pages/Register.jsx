@@ -76,7 +76,7 @@ const Register = () => {
   return (
     <>
       <div className="form-container">
-        {/**Page title */}
+        {/* Page title */}
         <h1 className="form-title ">Register</h1>
         <form onSubmit={handleSubmit}>
 
