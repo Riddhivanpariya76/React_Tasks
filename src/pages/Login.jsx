@@ -51,7 +51,8 @@ const Login = () => {
       const user = JSON.parse(localStorage.getItem("authData"));
       if (
         user &&
-        loginData.email === user.email && loginData.password === user.password
+        loginData.email === user.email &&
+        loginData.password === user.password
       ) {
         localStorage.setItem("loginData", JSON.stringify(loginData));
         navigate("/dashboard");
@@ -94,7 +95,9 @@ const Login = () => {
             placeholder="Enter Your Password"
             onChange={handleInputChange}
           />
-          {errors.password && <span className="error-msg">{errors.password}</span>}
+          {errors.password && (
+            <span className="error-msg">{errors.password}</span>
+          )}
         </div>
 
         {/* Submit Button */}
